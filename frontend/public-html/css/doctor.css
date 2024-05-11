@@ -1,0 +1,18 @@
+.barbers-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 1rem;
+}
+
+.barber-card {
+    width: 18rem;
+    height: 12rem;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.07);
+}
+
+.barber-card > .barber-avatar {
+    font-size: 2.5rem;
+}

@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16.2-alpine
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: clinic
+      POSTGRES_PASSWORD: foobar
+    ports:
+      - 5433:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clinic"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  backend:
+    image: backend:1.0
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+
+  frontend:
+    image: frontend:1.0
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - 8081:80
+
+volumes:
+  pgdata:
